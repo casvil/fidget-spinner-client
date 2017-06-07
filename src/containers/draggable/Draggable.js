@@ -17,15 +17,17 @@ class Draggable extends Component {
   }
 
   captureMouseDown = (e) => {
-    console.log(`Mouse Down -> x: ${e.clientX}, y: ${e.clientY}`);
+    // console.log(`Mouse Down -> x: ${e.clientX}, y: ${e.clientY}`);
     let mouseDown = { x: e.clientX, y: e.clientY }
     this.setState({mouseDown});
   }
+
   captureMouseUp = (e) => {
-    console.log(`Mouse Up -> x: ${e.clientX}, y: ${e.clientY}`);
+    // console.log(`Mouse Up -> x: ${e.clientX}, y: ${e.clientY}`);
     let mouseUp = { x: e.clientX, y: e.clientY }
     this.setState({mouseUp});
   }
+
   render() {
     return (
       <div

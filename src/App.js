@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import Draggable from './components/draggable/Draggable';
+import Draggable from './containers/draggable/Draggable';
 
 class App extends Component {
   render() {
