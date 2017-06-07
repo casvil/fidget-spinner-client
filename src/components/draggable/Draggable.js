@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './draggable.css';
-// require handleMouseEvents
+import handleMouseEvents from './handleMouseEvents';
 
 class Draggable extends Component {
   render() {
