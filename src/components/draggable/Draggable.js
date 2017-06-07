@@ -1,13 +1,30 @@
 import React, { Component } from 'react';
 import './draggable.css';
-import handleMouseEvents from './handleMouseEvents';
 
 class Draggable extends Component {
-  captureMouseDown(e) {
-    console.log(`Mouse Down -> x: ${e.clientX}, y: ${e.clientY}`);
+  constructor(props) {
+    super(props);
+    this.state = {
+      mouseDown: {
+        x: 0,
+        y: 0,
+      },
+      mouseUp: {
+        x: 0,
+        y: 0,
+      }
+    }
   }
-  captureMouseUp(e) {
+
+  captureMouseDown = (e) => {
+    console.log(`Mouse Down -> x: ${e.clientX}, y: ${e.clientY}`);
+    let mouseDown = { x: e.clientX, y: e.clientY }
+    this.setState({mouseDown});
+  }
+  captureMouseUp = (e) => {
     console.log(`Mouse Up -> x: ${e.clientX}, y: ${e.clientY}`);
+    let mouseUp = { x: e.clientX, y: e.clientY }
+    this.setState({mouseUp});
   }
   render() {
     return (
@@ -15,7 +32,8 @@ class Draggable extends Component {
         id="draggable"
         className="draggable"
         onMouseDown={this.captureMouseDown}
-        onMouseUp={this.captureMouseUp}>
+        onMouseUp={this.captureMouseUp}
+      >
       </div>
     );
   }
