@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './draggable.css';
+import Fidget from '../../components/fidget/Fidget';
 
 class Draggable extends Component {
   constructor(props) {
@@ -36,6 +37,7 @@ class Draggable extends Component {
         onMouseDown={this.captureMouseDown}
         onMouseUp={this.captureMouseUp}
       >
+      <Fidget></Fidget>
       </div>
     );
   }
