@@ -1,0 +1,22 @@
+div {
+  display: flex;
+  justify-content: center;
+}
+
+img {
+  user-drag: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  /*-moz-user-select: none;
+  -ms-user-select: none;*/
+}
+
+#main:hover {
+  animation: fidget-spin infinite 5s linear;
+}
+
+@keyframes fidget-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

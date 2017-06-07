@@ -10,7 +10,7 @@ class Fidget extends Component {
   render() {
     return (
       <div>
-        <img src={require('../../skins/noun_1082409_cc.svg')} alt="spinner" />
+        <img id="main" src={require('../../skins/black.svg')} alt="spinner" />
       </div>
     );
   }
