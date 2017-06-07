@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './draggable.css';
+import './Draggable.css';
 import Fidget from '../../components/fidget/Fidget';
 
 class Draggable extends Component {
