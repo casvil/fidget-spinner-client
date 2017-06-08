@@ -13,7 +13,8 @@ class Draggable extends Component {
       mouseUp: {
         x: 0,
         y: 0,
-      }
+      },
+      speed: 0,
     }
   }
 
@@ -26,6 +27,8 @@ class Draggable extends Component {
   captureMouseUp = (e) => {
     // console.log(`Mouse Up -> x: ${e.clientX}, y: ${e.clientY}`);
     let mouseUp = { x: e.clientX, y: e.clientY }
+    // calculate spped
+    // here
     this.setState({mouseUp});
   }
 

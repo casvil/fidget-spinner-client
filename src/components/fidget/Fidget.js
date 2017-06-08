@@ -4,13 +4,15 @@ import './Fidget.css';
 class Fidget extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      id: 'main', // ['main', 'my-fidget']
+    };
   }
 
   render() {
     return (
       <div>
-        <img id="main" src={require('../../skins/black.svg')} alt="spinner" />
+        <img id={this.state.id} src={require('../../skins/black.svg')} alt="spinner" />
       </div>
     );
   }

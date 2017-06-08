@@ -1,19 +1,19 @@
-div {
-  display: flex;
-  justify-content: center;
-}
-
 img {
   user-drag: none;
   user-select: none;
   -webkit-user-drag: none;
   -webkit-user-select: none;
-  /*-moz-user-select: none;
-  -ms-user-select: none;*/
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+#main {
+  width: 150px;
+  height: 150px;
 }
 
 #main:hover {
-  animation: fidget-spin infinite 5s linear;
+  animation: fidget-spin infinite 2s linear;
 }
 
 @keyframes fidget-spin {
