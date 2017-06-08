@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './Fidget.css';
 
 class Fidget extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -10,9 +11,13 @@ class Fidget extends Component {
   }
 
   render() {
+    if (this.textInput) this.textInput.style.transform = `rotate(${this.props.rotation}deg)`;
     return (
       <div>
-        <img id={this.state.id} src={require('../../skins/black.svg')} alt="spinner" />
+        <div style={{display: 'flex', flex: '1', border: '1px solid black'}}>
+          <img ref={(input) => { this.textInput = input; }} className="rotate" id={this.state.id} src={require('../../skins/black.svg')} />
+        </div>
+        Mouse speed: {this.props.speed}
       </div>
     );
   }
