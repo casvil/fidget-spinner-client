@@ -18,3 +18,35 @@
   border: 1px solid black;
   padding: 8px;
 }
+
+@media (max-width: 600px) {
+  .App {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-top: 100px;
+  }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    order: -1;
+  }
+
+  .main h1 {
+    margin-top: 0;
+  }
+
+  .user-info, .top-scores {
+    margin: 15px;
+    border: 1px solid black;
+    padding: 8px;
+  }
+
+  .user-info {
+  }
+
+  .top-scores {
+  }
+}
