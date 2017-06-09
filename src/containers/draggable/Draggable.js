@@ -122,8 +122,9 @@ class Draggable extends Component {
   rotate = () => {
     let element = this.refs.spinner.followMouse;
     let animation = new TimelineMax({repeat: 0, onComplete: this.setSpinToFalse}).to(element, 1, {rotation: 1080}, 0);
-    console.log('animation ', animation);
-    return animation;
+    // console.log('animation ', animation);
+    // animation.play();
+    // return animation;
   }
 
   render() {
@@ -147,7 +148,6 @@ class Draggable extends Component {
           }}
          />
         <Fidget ref="spinner" rotation={this.state.angle}/>
-        {this.state.speed}
       </div>
     );
   }
