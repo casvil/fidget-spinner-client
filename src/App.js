@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Draggable from './containers/draggable/Draggable';
-import Fidget from './components/fidget/Fidget';
+// import Fidget from './components/fidget/Fidget';
 
 // class App extends Component {
 //   render() {

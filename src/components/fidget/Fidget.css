@@ -14,10 +14,6 @@ img {
   height: 150px;
 }
 
-.rotate {
-  transform: rotate(0deg);
-}
-
 /*#main:hover {
   animation: fidget-spin infinite 1s ease;
 }

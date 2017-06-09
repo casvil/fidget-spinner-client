@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { CSSTransitionGroup } from 'react-transition-group';
 import './Draggable.css';
 import Fidget from '../../components/fidget/Fidget';
 
@@ -27,9 +26,11 @@ class Draggable extends Component {
   captureMouseDown = (e) => {
     // console.log(`Mouse Down -> x: ${e.clientX}, y: ${e.clientY}`);
     let mouseDown = { x: e.clientX, y: e.clientY };
+    const angle = this.angle(e) - this.state.angle;
     this.setState({
       mouseDown,
-      dragging: true
+      dragging: true,
+      originalAngle: angle
     });
   }
 
@@ -39,7 +40,8 @@ class Draggable extends Component {
     // let speed = this.calcSpeed();
     this.setState({
       mouseUp,
-      dragging:false
+      dragging:false,
+      originalAngle: undefined,
     });
   }
 
@@ -61,13 +63,32 @@ class Draggable extends Component {
     return angleDeg;
   }
 
+  angle = (event) => {
+    const center = {
+        x: event.currentTarget.offsetLeft + (event.currentTarget.offsetWidth/2),
+        y: event.currentTarget.offsetTop + (event.currentTarget.offsetHeight/2),
+      };
+
+    // }
+
+    // Get the draggable div dimensions
+
+    // Rotate the spinner at first drag (speed is 0 at that time)
+    // If we are draggin but speed is 0
+    return this.angleBetween2Points(center, {x:event.pageX, y:event.pageY});
+  }
+
   calcSpeed = (event) => {
     // We dont want to increase speed if we are not dragging
     if(!this.state.dragging) return;
 
-    // Rotate the spinner at first drag (speed is 0 at that time)
-    // If we are draggin but speed is 0
-    let angle = this.angleBetween2Points({x:475, y:125}, {x:event.pageX, y:event.pageY});
+
+    // for (var whatever in event.currentTarget) {
+    //   console.log(whatever);
+    // }
+    // debugger
+
+    const angle = this.angle(event) - this.state.originalAngle;
     let speed = this.state.speed;
 
     if(this.state.lastLocation.x) {
@@ -97,6 +118,17 @@ class Draggable extends Component {
         onMouseUp={this.captureMouseUp}
         onMouseMove={this.calcSpeed}
       >
+        <div
+          style={{
+            backgroundColor: 'red',
+            width: 1,
+            height: 1,
+            position: 'fixed',
+            top: 146,
+            left: 479,
+            zIndex: 999999
+          }}
+         />
         <Fidget rotation={this.state.angle} speed={this.state.speed}></Fidget>
       </div>
     );
