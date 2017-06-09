@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import './Draggable.css';
+import { TimelineMax, TweenLite, TweenMax } from "gsap";
 import Fidget from '../../components/fidget/Fidget';
+import './Draggable.css';
 
 class Draggable extends Component {
   constructor(props) {
@@ -20,6 +21,9 @@ class Draggable extends Component {
       },
       speed: 0,
       angle: 0,
+      center: undefined,
+      dragging: false,
+      spinning: false,
     }
   }
 
@@ -27,27 +31,39 @@ class Draggable extends Component {
     // console.log(`Mouse Down -> x: ${e.clientX}, y: ${e.clientY}`);
     let mouseDown = { x: e.clientX, y: e.clientY };
     const angle = this.angle(e) - this.state.angle;
-    this.setState({
-      mouseDown,
-      dragging: true,
-      originalAngle: angle
-    });
+
+    // if (!this.state.spinning) {
+      this.setState({
+        mouseDown,
+        dragging: true,
+        originalAngle: angle
+      });
+    // } else {
+    //   this.setState({
+    //     mouseDown,
+    //     dragging: false,
+    //     originalAngle: angle
+    //   });
+    // }
   }
 
   captureMouseUp = (e) => {
     // console.log(`Mouse Up -> x: ${e.clientX}, y: ${e.clientY}`);
     let mouseUp = { x: e.clientX, y: e.clientY }
-    // let speed = this.calcSpeed();
+
+    // if (!this.state.spinning) this.rotate();
+    this.rotate();
+
     this.setState({
       mouseUp,
       dragging:false,
+      spinning: true, // only when speed is 0
       originalAngle: undefined,
     });
+
   }
 
   angleBetween2Points = (a,b) => {
-    // console.log(a);
-    // console.log(b);
     let p1 = {
       x: a.x,
       y: a.y
@@ -58,20 +74,14 @@ class Draggable extends Component {
       y: b.y
     };
 
-    let angleDeg = Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
-    // console.log(angleDeg);
-    return angleDeg;
+    return Math.atan2(p2.y - p1.y, p2.x - p1.x) * 180 / Math.PI;
   }
 
   angle = (event) => {
     const center = {
-        x: event.currentTarget.offsetLeft + (event.currentTarget.offsetWidth/2),
-        y: event.currentTarget.offsetTop + (event.currentTarget.offsetHeight/2),
-      };
-
-    // }
-
-    // Get the draggable div dimensions
+      x: event.currentTarget.offsetLeft + (event.currentTarget.offsetWidth/2),
+      y: event.currentTarget.offsetTop + (event.currentTarget.offsetHeight/2),
+    };
 
     // Rotate the spinner at first drag (speed is 0 at that time)
     // If we are draggin but speed is 0
@@ -81,12 +91,6 @@ class Draggable extends Component {
   calcSpeed = (event) => {
     // We dont want to increase speed if we are not dragging
     if(!this.state.dragging) return;
-
-
-    // for (var whatever in event.currentTarget) {
-    //   console.log(whatever);
-    // }
-    // debugger
 
     const angle = this.angle(event) - this.state.originalAngle;
     let speed = this.state.speed;
@@ -106,7 +110,20 @@ class Draggable extends Component {
       },
       speed,
       angle
-    })
+    });
+  }
+
+  setSpinToFalse = () => {
+    this.setState({
+      spinning: false
+    });
+  }
+
+  rotate = () => {
+    let element = this.refs.spinner.followMouse;
+    let animation = new TimelineMax({repeat: 0, onComplete: this.setSpinToFalse}).to(element, 1, {rotation: 1080}, 0);
+    console.log('animation ', animation);
+    return animation;
   }
 
   render() {
@@ -129,7 +146,8 @@ class Draggable extends Component {
             zIndex: 999999
           }}
          />
-        <Fidget rotation={this.state.angle} speed={this.state.speed}></Fidget>
+        <Fidget ref="spinner" rotation={this.state.angle}/>
+        {this.state.speed}
       </div>
     );
   }

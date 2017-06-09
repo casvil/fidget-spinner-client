@@ -10,8 +10,9 @@ img {
 }
 
 #main {
-  width: 150px;
-  height: 150px;
+  padding: 200px;
+  width: 250px;
+  height: 250px;
 }
 
 /*#main:hover {
