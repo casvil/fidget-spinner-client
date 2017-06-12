@@ -15,16 +15,14 @@ class UserInfo extends Component {
   }
 
   handleChange(event) {
-    console.log('hello?',event.target.value);
-    if (event.target.value === '') {
-      this.setState({user: 'new user'});
-    } else {
-      this.setState({user: event.target.value});
-    }
+    this.setState({user: event.target.value});
   }
 
   handleSubmit(event) {
     event.preventDefault();
+    if (this.state.user === '') {
+      this.setState({user: 'new user'});
+    }
     this.setState({
       submitted: true
     })
