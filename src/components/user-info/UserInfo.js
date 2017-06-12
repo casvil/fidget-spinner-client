@@ -21,7 +21,7 @@ class UserInfo extends Component {
   handleSubmit(event) {
     event.preventDefault();
     if (this.state.user === '') {
-      this.setState({user: 'new user'});
+      this.setState({user: 'Guest user'});
     }
     this.setState({
       submitted: true
@@ -45,8 +45,7 @@ class UserInfo extends Component {
     } else {
       return (
         <div className='user-info'>
-          <h1>User Info</h1>
-          Hello, {this.state.user}!
+          <h1>Hello, {this.state.user}!</h1>
         </div>
       )
     }
