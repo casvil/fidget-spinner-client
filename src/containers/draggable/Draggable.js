@@ -132,10 +132,7 @@ class Draggable extends Component {
   finishedSpin = () => {
     this.setState({
       spinning: false,
-      // scores: {
-      //   user: 'david',
-      //   score: this.state.scores.concat(this.state.accumRotation)
-      // },
+      scores: [...this.state.scores, Object.assign({}, {user: 'new user', score: this.state.accumRotation})],
       accumRotation: 0
     });
   }
