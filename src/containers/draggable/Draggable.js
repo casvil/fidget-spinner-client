@@ -28,10 +28,12 @@ class Draggable extends Component {
       animation: undefined,
       scores: [
         {
+          userId: 1,
           user: 'david',
           score: 1000
         },
         {
+          userId: 2,
           user: 'arol',
           score: 2000
         }
@@ -130,9 +132,10 @@ class Draggable extends Component {
   }
 
   finishedSpin = () => {
+    console.log(this.state.scores.length);
     this.setState({
       spinning: false,
-      scores: [...this.state.scores, Object.assign({}, {user: 'new user', score: this.state.accumRotation})],
+      scores: [...this.state.scores, Object.assign({}, {user: 'new user', score: this.state.accumRotation, userId: this.state.scores.length+1})],
       accumRotation: 0
     });
   }
@@ -166,7 +169,7 @@ class Draggable extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{display: 'flex'}}>
         <div
           id="draggable"
           className="draggable"
@@ -187,7 +190,7 @@ class Draggable extends Component {
            />
           <Fidget ref="spinner" rotation={this.state.angle}/>
         </div>
-        <Score scores={this.state.scores}></Score>
+        <Score scores={this.state.scores} />
       </div>
     );
   }
