@@ -120,7 +120,9 @@ class Draggable extends Component {
 
   setSpinToFalse = () => {
     this.setState({
-      spinning: false
+      spinning: false,
+      score: this.state.accumRotation,
+      accumRotation: 0
     });
   }
 
