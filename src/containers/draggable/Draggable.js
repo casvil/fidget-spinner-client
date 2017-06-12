@@ -25,7 +25,7 @@ class Draggable extends Component {
       dragging: false,
       spinning: false,
       animation: undefined,
-      score: 0,
+      score: [],
       rotation: '120',
       accumRotation: 0,
     }
@@ -123,7 +123,7 @@ class Draggable extends Component {
   finishedSpin = () => {
     this.setState({
       spinning: false,
-      score: this.state.accumRotation,
+      score: this.state.score.concat(this.state.accumRotation),
       accumRotation: 0
     });
   }
@@ -176,9 +176,6 @@ class Draggable extends Component {
           }}
          />
         <Fidget ref="spinner" rotation={this.state.angle}/>
-        Score: {this.state.score}
-        <br/>
-        Rotation: {this.state.accumRotation}
       </div>
     );
   }
