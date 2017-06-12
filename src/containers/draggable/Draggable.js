@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TimelineMax, TweenLite, TweenMax } from "gsap";
 import Fidget from '../../components/fidget/Fidget';
+import UserInfo from '../../components/user-info/UserInfo';
 import './Draggable.css';
 
 class Draggable extends Component {
@@ -149,25 +150,28 @@ class Draggable extends Component {
 
   render() {
     return (
-      <div
-        id="draggable"
-        className="draggable"
-        onMouseDown={this.captureMouseDown}
-        onMouseUp={this.captureMouseUp}
-        onMouseMove={this.calcSpeed}
-      >
+      <div style={{display: 'flex'}}>
+        <UserInfo />
         <div
-          style={{
-            backgroundColor: 'red',
-            width: 1,
-            height: 1,
-            position: 'fixed',
-            top: 146,
-            left: 479,
-            zIndex: 999999
-          }}
-         />
-        <Fidget ref="spinner" rotation={this.state.angle}/>
+          id="draggable"
+          className="draggable"
+          onMouseDown={this.captureMouseDown}
+          onMouseUp={this.captureMouseUp}
+          onMouseMove={this.calcSpeed}
+        >
+          <div
+            style={{
+              backgroundColor: 'red',
+              width: 1,
+              height: 1,
+              position: 'fixed',
+              top: 146,
+              left: 479,
+              zIndex: 999999
+            }}
+           />
+          <Fidget ref="spinner" rotation={this.state.angle}/>
+        </div>
       </div>
     );
   }
