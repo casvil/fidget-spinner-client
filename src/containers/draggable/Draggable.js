@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TimelineMax, TweenLite, TweenMax } from "gsap";
 import Fidget from '../../components/fidget/Fidget';
+import Score from '../../components/score/Score';
 import './Draggable.css';
 
 class Draggable extends Component {
@@ -25,9 +26,17 @@ class Draggable extends Component {
       dragging: false,
       spinning: false,
       animation: undefined,
-      score: [],
+      scores: [
+        {
+          user: 'david',
+          score: 1000
+        },
+        {
+          user: 'arol',
+          score: 2000
+        }
+      ],
       rotation: '120',
-      accumRotation: 0,
     }
   }
 
@@ -123,7 +132,10 @@ class Draggable extends Component {
   finishedSpin = () => {
     this.setState({
       spinning: false,
-      score: this.state.score.concat(this.state.accumRotation),
+      // scores: {
+      //   user: 'david',
+      //   score: this.state.scores.concat(this.state.accumRotation)
+      // },
       accumRotation: 0
     });
   }
@@ -157,25 +169,28 @@ class Draggable extends Component {
 
   render() {
     return (
-      <div
-        id="draggable"
-        className="draggable"
-        onMouseDown={this.captureMouseDown}
-        onMouseUp={this.captureMouseUp}
-        onMouseMove={this.calcSpeed}
-      >
+      <div>
         <div
-          style={{
-            backgroundColor: 'red',
-            width: 1,
-            height: 1,
-            position: 'fixed',
-            top: 146,
-            left: 479,
-            zIndex: 999999
-          }}
-         />
-        <Fidget ref="spinner" rotation={this.state.angle}/>
+          id="draggable"
+          className="draggable"
+          onMouseDown={this.captureMouseDown}
+          onMouseUp={this.captureMouseUp}
+          onMouseMove={this.calcSpeed}
+        >
+          <div
+            style={{
+              backgroundColor: 'red',
+              width: 1,
+              height: 1,
+              position: 'fixed',
+              top: 146,
+              left: 479,
+              zIndex: 999999
+            }}
+           />
+          <Fidget ref="spinner" rotation={this.state.angle}/>
+        </div>
+        <Score scores={this.state.scores}></Score>
       </div>
     );
   }
