@@ -24,6 +24,7 @@ class Draggable extends Component {
       center: undefined,
       dragging: false,
       spinning: false,
+      animation: undefined
     }
   }
 
@@ -31,7 +32,7 @@ class Draggable extends Component {
     // console.log(`Mouse Down -> x: ${e.clientX}, y: ${e.clientY}`);
     let mouseDown = { x: e.clientX, y: e.clientY };
     const angle = this.angle(e) - this.state.angle;
-
+    console.log(angle);
     // if (!this.state.spinning) {
       this.setState({
         mouseDown,
@@ -119,12 +120,31 @@ class Draggable extends Component {
     });
   }
 
+  createAnimation = () => {
+    return new TimelineMax({repeat: 0, onComplete: this.setSpinToFalse});
+  }
+
   rotate = () => {
     let element = this.refs.spinner.followMouse;
-    let animation = new TimelineMax({repeat: 0, onComplete: this.setSpinToFalse}).to(element, 1, {rotation: 1080}, 0);
+    console.log(element);
+    console.log(this.state.animation.totalProgress());
+    this.state.animation.clear().to(element, 1, {rotation: "+=360"}, 0).play();
+
+    // setTimeout(function () {
+    //   console.log(animation.totalProgress());
+    // }, 500);
+    //
+    // console.log(animation.startTime());
+    // console.log(animation.duration());
     // console.log('animation ', animation);
     // animation.play();
     // return animation;
+  }
+
+  componentDidMount() {
+    this.setState({
+      animation: this.createAnimation()
+    })
   }
 
   render() {
