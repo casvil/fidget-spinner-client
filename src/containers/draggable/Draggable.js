@@ -24,7 +24,10 @@ class Draggable extends Component {
       center: undefined,
       dragging: false,
       spinning: false,
-      animation: undefined
+      animation: undefined,
+      score: 0,
+      rotation: '180',
+      accumRotation: 0,
     }
   }
 
@@ -37,7 +40,8 @@ class Draggable extends Component {
       this.setState({
         mouseDown,
         dragging: true,
-        originalAngle: angle
+        originalAngle: angle,
+        accumRotation: this.state.accumRotation + parseInt(this.state.rotation)
       });
     // } else {
     //   this.setState({
@@ -128,7 +132,7 @@ class Draggable extends Component {
     let element = this.refs.spinner.followMouse;
     console.log(element);
     console.log(this.state.animation.totalProgress());
-    this.state.animation.clear().to(element, 1, {rotation: "+=360"}, 0).play();
+    this.state.animation.clear().to(element, 1, {rotation: `+=${this.state.rotation}`}, 0).play();
 
     // setTimeout(function () {
     //   console.log(animation.totalProgress());
@@ -168,6 +172,9 @@ class Draggable extends Component {
           }}
          />
         <Fidget ref="spinner" rotation={this.state.angle}/>
+        Score: {this.state.score}
+        <br/>
+        Rotation: {this.state.accumRotation}
       </div>
     );
   }
