@@ -31,6 +31,7 @@ class Draggable extends Component {
       accumRotation: 0,
       scores: [],
       rotation: '120',
+      name: '',
     }
   }
 
@@ -120,21 +121,21 @@ class Draggable extends Component {
   }
 
   finishedSpin = () => {
-    console.log(this.state.scores.length);
 
     if (this.state.accumRotation) {
+      console.log(this.state.name);
       axios({
         method: 'POST',
         url: 'http://localhost:3000/user',
         data: {
-          name: "Fred", // to fix
+          name: this.state.name || 'Guest user',
           score: this.state.accumRotation
         }
       });
 
       this.setState({
         spinning: false,
-        scores: [...this.state.scores, Object.assign({}, {user: 'new user', score: this.state.accumRotation, userId: this.state.scores.length+1})],
+        scores: [...this.state.scores, {name: this.state.name || 'Guest user', score: this.state.accumRotation, _id: this.state.scores.length+1}],
         accumRotation: 0
       });
     }
@@ -149,6 +150,11 @@ class Draggable extends Component {
     console.log(element);
     console.log(this.state.animation.totalProgress());
     this.state.animation.clear().to(element, 1, {rotation: `+=${this.state.rotation}`}, 0).play();
+  }
+
+  handleUsername = (name) => {
+    console.log(name);
+    this.setState({name})
   }
 
   componentDidMount() {
@@ -166,7 +172,7 @@ class Draggable extends Component {
   render() {
     return (
       <div style={{display: 'flex'}}>
-        <UserInfo />
+        <UserInfo onUserName={this.handleUsername} />
         <div
           id="draggable"
           className="draggable"
