@@ -1,0 +1,25 @@
+img {
+  user-drag: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+
+  padding: 20px;
+}
+
+#main {
+  padding: 50px;
+  width: 250px;
+  height: 250px;
+}
+
+/*#main:hover {
+  animation: fidget-spin infinite 1s ease;
+}
+
+@keyframes fidget-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}*/
