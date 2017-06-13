@@ -1,12 +1,15 @@
 .user-info {
   display: flex;
   flex-direction: column;
-  border: 1px solid black;
   min-width: 250px;
 }
 
 .user-info {
   margin: 0;
+}
+
+#user-input {
+  margin: 0 10px;
 }
 
 h1 {

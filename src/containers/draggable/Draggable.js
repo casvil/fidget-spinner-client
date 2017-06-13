@@ -171,7 +171,7 @@ class Draggable extends Component {
 
   render() {
     return (
-      <div style={{display: 'flex'}}>
+      <div style={{display: 'flex', justifyContent: "space-around"}}>
         <UserInfo onUserName={this.handleUsername} />
         <div
           id="draggable"
