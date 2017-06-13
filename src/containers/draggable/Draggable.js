@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TimelineMax } from "gsap";
 import axios from 'axios';
+import sortBy from 'sort-by';
 import Fidget from '../../components/fidget/Fidget';
 import Score from '../../components/score/Score';
 import UserInfo from '../../components/user-info/UserInfo';
@@ -163,7 +164,7 @@ class Draggable extends Component {
       url: 'http://localhost:3000/user'
     }).then((scores) => {
       this.setState({
-        scores: scores.data,
+        scores: scores.data.sort(sortBy('-score')),
         animation: this.createAnimation()
       })
     });

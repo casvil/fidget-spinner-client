@@ -15,6 +15,7 @@ li, label, button, input {
 
 h1 {
   font-family: Pangolin !important;
+  text-align: center;
 }
 
 li, b {
