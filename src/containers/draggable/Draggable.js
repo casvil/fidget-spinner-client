@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { TimelineMax, TweenLite, TweenMax } from "gsap";
 import Fidget from '../../components/fidget/Fidget';
 import Score from '../../components/score/Score';
+import UserInfo from '../../components/user-info/UserInfo';
 import './Draggable.css';
 
 class Draggable extends Component {
@@ -156,6 +157,7 @@ class Draggable extends Component {
   render() {
     return (
       <div style={{display: 'flex'}}>
+        <UserInfo />
         <div
           id="draggable"
           className="draggable"

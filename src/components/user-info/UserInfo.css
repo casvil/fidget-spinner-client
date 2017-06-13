@@ -1,0 +1,15 @@
+.user-info {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  min-width: 250px;
+}
+
+.user-info {
+  margin: 0;
+}
+
+h1{
+  margin-top: 0;
+  margin-bottom: 15px;
+}
