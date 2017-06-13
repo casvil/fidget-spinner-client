@@ -7,7 +7,7 @@ class Score extends Component {
     console.log(this.props.scores);
     const scores = this.props.scores.map((element) =>
       <li key={`${element._id}`}>
-        <b>{element.name}</b>: {element.score}
+        <b>{element.name}</b>: <span>{element.score}</span>
       </li>
     );
     return (

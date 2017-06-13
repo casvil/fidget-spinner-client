@@ -13,7 +13,7 @@ class Fidget extends Component {
   render() {
     if (this.followMouse) this.followMouse.style.transform = `rotate(${this.props.rotation}deg)`;
     return (
-      <div style={{display: 'flex', flex: '1', border: '1px solid black'}}>
+      <div style={{display: 'flex', flex: '1'}}>
         <img ref={(image) => { this.followMouse = image; }} className="rotate" id={this.state.id} src={require('../../skins/black.svg')} alt="fidget" />
       </div>
     );
