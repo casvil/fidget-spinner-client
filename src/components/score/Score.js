@@ -8,8 +8,8 @@ class Score extends Component {
 
   render() {
     const scores = this.props.scores.map((element) =>
-      <li key={`${element.userId}`}>
-        {element.user}: {element.score}
+      <li key={`${element._id}`}>
+        <b>{element.name}</b>: {element.score}
       </li>
     );
     return (
