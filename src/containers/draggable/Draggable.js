@@ -43,7 +43,6 @@ class Draggable extends Component {
   }
 
   captureMouseDown = (e) => {
-    // console.log(`Mouse Down -> x: ${e.clientX}, y: ${e.clientY}`);
     let mouseDown = { x: e.clientX, y: e.clientY };
     const angle = this.angle(e) - this.state.angle;
     console.log(angle);
@@ -66,10 +65,8 @@ class Draggable extends Component {
   }
 
   captureMouseUp = (e) => {
-    // console.log(`Mouse Up -> x: ${e.clientX}, y: ${e.clientY}`);
     let mouseUp = { x: e.clientX, y: e.clientY }
 
-    // if (!this.state.spinning) this.rotate();
     this.rotate();
 
     this.setState({
@@ -78,7 +75,6 @@ class Draggable extends Component {
       spinning: true, // only when speed is 0
       originalAngle: undefined,
     });
-
   }
 
   angleBetween2Points = (a,b) => {
@@ -149,16 +145,6 @@ class Draggable extends Component {
     console.log(element);
     console.log(this.state.animation.totalProgress());
     this.state.animation.clear().to(element, 1, {rotation: `+=${this.state.rotation}`}, 0).play();
-
-    // setTimeout(function () {
-    //   console.log(animation.totalProgress());
-    // }, 500);
-    //
-    // console.log(animation.startTime());
-    // console.log(animation.duration());
-    // console.log('animation ', animation);
-    // animation.play();
-    // return animation;
   }
 
   componentDidMount() {
