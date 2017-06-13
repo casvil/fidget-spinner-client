@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TimelineMax, TweenLite, TweenMax } from "gsap";
+import { TimelineMax } from "gsap";
 import axios from 'axios';
 import Fidget from '../../components/fidget/Fidget';
 import Score from '../../components/score/Score';
