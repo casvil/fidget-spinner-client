@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { TimelineMax, TweenLite, TweenMax } from "gsap";
 import Fidget from '../../components/fidget/Fidget';
+import Score from '../../components/score/Score';
 import UserInfo from '../../components/user-info/UserInfo';
 import './Draggable.css';
 
@@ -25,35 +26,48 @@ class Draggable extends Component {
       center: undefined,
       dragging: false,
       spinning: false,
-      animation: undefined
+      animation: undefined,
+      scores: [
+        {
+          userId: 1,
+          user: 'david',
+          score: 1000
+        },
+        {
+          userId: 2,
+          user: 'arol',
+          score: 2000
+        }
+      ],
+      rotation: '120',
     }
   }
 
   captureMouseDown = (e) => {
-    // console.log(`Mouse Down -> x: ${e.clientX}, y: ${e.clientY}`);
     let mouseDown = { x: e.clientX, y: e.clientY };
     const angle = this.angle(e) - this.state.angle;
     console.log(angle);
-    // if (!this.state.spinning) {
+
+    if (!this.state.spinning) {
       this.setState({
         mouseDown,
         dragging: true,
-        originalAngle: angle
+        originalAngle: angle,
+        accumRotation: this.state.accumRotation + parseInt(this.state.rotation, 10)
       });
-    // } else {
-    //   this.setState({
-    //     mouseDown,
-    //     dragging: false,
-    //     originalAngle: angle
-    //   });
-    // }
+    } else {
+      this.setState({
+        mouseDown,
+        dragging: false,
+        originalAngle: angle,
+        accumRotation: this.state.accumRotation + parseInt(this.state.rotation, 10)
+      });
+    }
   }
 
   captureMouseUp = (e) => {
-    // console.log(`Mouse Up -> x: ${e.clientX}, y: ${e.clientY}`);
     let mouseUp = { x: e.clientX, y: e.clientY }
 
-    // if (!this.state.spinning) this.rotate();
     this.rotate();
 
     this.setState({
@@ -62,7 +76,6 @@ class Draggable extends Component {
       spinning: true, // only when speed is 0
       originalAngle: undefined,
     });
-
   }
 
   angleBetween2Points = (a,b) => {
@@ -115,31 +128,24 @@ class Draggable extends Component {
     });
   }
 
-  setSpinToFalse = () => {
+  finishedSpin = () => {
+    console.log(this.state.scores.length);
     this.setState({
-      spinning: false
+      spinning: false,
+      scores: [...this.state.scores, Object.assign({}, {user: 'new user', score: this.state.accumRotation, userId: this.state.scores.length+1})],
+      accumRotation: 0
     });
   }
 
   createAnimation = () => {
-    return new TimelineMax({repeat: 0, onComplete: this.setSpinToFalse});
+    return new TimelineMax({repeat: 0, onComplete: this.finishedSpin});
   }
 
   rotate = () => {
     let element = this.refs.spinner.followMouse;
     console.log(element);
     console.log(this.state.animation.totalProgress());
-    this.state.animation.clear().to(element, 1, {rotation: "+=360"}, 0).play();
-
-    // setTimeout(function () {
-    //   console.log(animation.totalProgress());
-    // }, 500);
-    //
-    // console.log(animation.startTime());
-    // console.log(animation.duration());
-    // console.log('animation ', animation);
-    // animation.play();
-    // return animation;
+    this.state.animation.clear().to(element, 1, {rotation: `+=${this.state.rotation}`}, 0).play();
   }
 
   componentDidMount() {
@@ -172,6 +178,7 @@ class Draggable extends Component {
            />
           <Fidget ref="spinner" rotation={this.state.angle}/>
         </div>
+        <Score scores={this.state.scores} />
       </div>
     );
   }
