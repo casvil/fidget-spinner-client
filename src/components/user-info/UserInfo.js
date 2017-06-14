@@ -19,6 +19,8 @@ class UserInfo extends Component {
   }
 
   handleSubmit(event) {
+    this.props.onUserName(this.state.user);
+
     event.preventDefault();
     if (this.state.user === '') {
       this.setState({user: 'Guest user'});
@@ -36,9 +38,9 @@ class UserInfo extends Component {
           <form onSubmit={this.handleSubmit}>
             <label>
               Name:
-              <input type="text" value={this.state.user} onChange={this.handleChange} />
+              <input id="user-input" type="text" value={this.state.user} onChange={this.handleChange} />
             </label>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Submit"/>
           </form>
         </div>
       );

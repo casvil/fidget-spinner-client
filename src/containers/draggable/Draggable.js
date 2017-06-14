@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { TimelineMax, TweenLite, TweenMax } from "gsap";
+import { TimelineMax } from "gsap";
+import axios from 'axios';
+import sortBy from 'sort-by';
 import Fidget from '../../components/fidget/Fidget';
 import Score from '../../components/score/Score';
 import UserInfo from '../../components/user-info/UserInfo';
@@ -27,19 +29,10 @@ class Draggable extends Component {
       dragging: false,
       spinning: false,
       animation: undefined,
-      scores: [
-        {
-          userId: 1,
-          user: 'david',
-          score: 1000
-        },
-        {
-          userId: 2,
-          user: 'arol',
-          score: 2000
-        }
-      ],
+      accumRotation: 0,
+      scores: [],
       rotation: '120',
+      name: '',
     }
   }
 
@@ -129,12 +122,24 @@ class Draggable extends Component {
   }
 
   finishedSpin = () => {
-    console.log(this.state.scores.length);
-    this.setState({
-      spinning: false,
-      scores: [...this.state.scores, Object.assign({}, {user: 'new user', score: this.state.accumRotation, userId: this.state.scores.length+1})],
-      accumRotation: 0
-    });
+
+    if (this.state.accumRotation) {
+      console.log(this.state.name);
+      axios({
+        method: 'POST',
+        url: 'http://localhost:3000/user',
+        data: {
+          name: this.state.name || 'Guest user',
+          score: this.state.accumRotation
+        }
+      });
+
+      this.setState({
+        spinning: false,
+        scores: [...this.state.scores, {name: this.state.name || 'Guest user', score: this.state.accumRotation, _id: this.state.scores.length+1}],
+        accumRotation: 0
+      });
+    }
   }
 
   createAnimation = () => {
@@ -148,16 +153,27 @@ class Draggable extends Component {
     this.state.animation.clear().to(element, 1, {rotation: `+=${this.state.rotation}`}, 0).play();
   }
 
+  handleUsername = (name) => {
+    console.log(name);
+    this.setState({name})
+  }
+
   componentDidMount() {
-    this.setState({
-      animation: this.createAnimation()
-    })
+    axios({
+      method: 'GET',
+      url: 'http://localhost:3000/user'
+    }).then((scores) => {
+      this.setState({
+        scores: scores.data.sort(sortBy('-score')),
+        animation: this.createAnimation()
+      })
+    });
   }
 
   render() {
     return (
-      <div style={{display: 'flex'}}>
-        <UserInfo />
+      <div style={{display: 'flex', justifyContent: "space-around"}}>
+        <UserInfo onUserName={this.handleUsername} />
         <div
           id="draggable"
           className="draggable"
@@ -165,17 +181,6 @@ class Draggable extends Component {
           onMouseUp={this.captureMouseUp}
           onMouseMove={this.calcSpeed}
         >
-          <div
-            style={{
-              backgroundColor: 'red',
-              width: 1,
-              height: 1,
-              position: 'fixed',
-              top: 146,
-              left: 479,
-              zIndex: 999999
-            }}
-           />
           <Fidget ref="spinner" rotation={this.state.angle}/>
         </div>
         <Score scores={this.state.scores} />
