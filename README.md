@@ -1,5 +1,4 @@
 # King of the Spin!
-## fidget-spinner-client
 
 Client side source code for fidget spinner project - King of the spin!
 
