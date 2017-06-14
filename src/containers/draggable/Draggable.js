@@ -58,6 +58,31 @@ class Draggable extends Component {
     }
   }
 
+  captureMouseMove = (e) => {
+    // We dont want to increase speed if we are not dragging
+    if(!this.state.dragging) return;
+
+    const angle = this.angle(e) - this.state.originalAngle;
+    let speed = this.state.speed;
+
+    if(this.state.lastLocation.x) {
+      const difference = {
+        x: e.pageX - this.state.lastLocation.x,
+        y: e.pageY - this.state.lastLocation.y
+      }
+      speed += (-difference.x + difference.y)//*Math.abs(difference.x + difference.y)/2;
+    }
+
+    this.setState({
+      lastLocation: {
+        x: e.pageX,
+        y: e.pageY
+      },
+      speed,
+      angle
+    });
+  }
+
   captureMouseUp = (e) => {
     let mouseUp = { x: e.clientX, y: e.clientY }
 
@@ -173,17 +198,17 @@ class Draggable extends Component {
   render() {
     return (
       <div style={{display: 'flex', justifyContent: "space-around"}}>
-        <UserInfo onUserName={this.handleUsername} />
-        <div
-          id="draggable"
-          className="draggable"
-          onMouseDown={this.captureMouseDown}
-          onMouseUp={this.captureMouseUp}
-          onMouseMove={this.calcSpeed}
-        >
-          <Fidget ref="spinner" rotation={this.state.angle}/>
-        </div>
-        <Score scores={this.state.scores} />
+      <UserInfo onUserName={this.handleUsername} />
+      <div
+      id="draggable"
+      className="draggable"
+      onMouseDown={this.captureMouseDown}
+      onMouseUp={this.captureMouseUp}
+      onMouseMove={this.calcSpeed}
+      >
+      <Fidget ref="spinner" rotation={this.state.angle}/>
+      </div>
+      <Score scores={this.state.scores} />
       </div>
     );
   }
