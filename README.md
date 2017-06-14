@@ -2,6 +2,18 @@
 
 Client side source code for fidget spinner project - King of the spin!
 
+![Screenshoot 1](./public/screen1.png)
+![Screenshoot 2](./public/screen2.png)
+
+### Tech Stack
+#### Front End
+- React JS
+- GSAP
+#### Back End
+- Express JS
+- Mongoose (MongoDB)
+
+### Installation
 0. Download repo and install server side dependencies of King of the spin! project.
 ```sh
 $ git clone https://github.com/casvil/fidget-spinner-server.git
