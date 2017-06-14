@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { TimelineMax, TweenLite, TweenMax } from "gsap";
 import Fidget from '../../components/fidget/Fidget';
-import './Draggable.css';
+import './draggable.css';
 
 class Draggable extends Component {
   constructor(props) {
@@ -25,42 +25,6 @@ class Draggable extends Component {
       dragging: false,
       spinning: false,
     }
-  }
-
-  captureMouseDown = (e) => {
-    // console.log(`Mouse Down -> x: ${e.clientX}, y: ${e.clientY}`);
-    let mouseDown = { x: e.clientX, y: e.clientY };
-    const angle = this.angle(e) - this.state.angle;
-
-    // if (!this.state.spinning) {
-      this.setState({
-        mouseDown,
-        dragging: true,
-        originalAngle: angle
-      });
-    // } else {
-    //   this.setState({
-    //     mouseDown,
-    //     dragging: false,
-    //     originalAngle: angle
-    //   });
-    // }
-  }
-
-  captureMouseUp = (e) => {
-    // console.log(`Mouse Up -> x: ${e.clientX}, y: ${e.clientY}`);
-    let mouseUp = { x: e.clientX, y: e.clientY }
-
-    // if (!this.state.spinning) this.rotate();
-    this.rotate();
-
-    this.setState({
-      mouseUp,
-      dragging:false,
-      spinning: true, // only when speed is 0
-      originalAngle: undefined,
-    });
-
   }
 
   angleBetween2Points = (a,b) => {
@@ -88,43 +52,92 @@ class Draggable extends Component {
     return this.angleBetween2Points(center, {x:event.pageX, y:event.pageY});
   }
 
-  calcSpeed = (event) => {
+  captureMouseDown = (e) => {
+    // console.log(`Mouse Down -> x: ${e.clientX}, y: ${e.clientY}`);
+    let mouseDown = { x: e.clientX, y: e.clientY };
+    const angle = this.angle(e) - this.state.angle;
+
+    // if (!this.state.spinning) {
+      this.setState({
+        mouseDown,
+        dragging: true,
+        originalAngle: angle,
+        speed: 0
+      });
+    // } else {
+    //   this.setState({
+    //     mouseDown,
+    //     dragging: false,
+    //     originalAngle: angle
+    //   });
+    // }
+  }
+
+  captureMouseMove = (e) => {
     // We dont want to increase speed if we are not dragging
     if(!this.state.dragging) return;
 
-    const angle = this.angle(event) - this.state.originalAngle;
+    const angle = this.angle(e) - this.state.originalAngle;
     let speed = this.state.speed;
 
     if(this.state.lastLocation.x) {
       const difference = {
-        x: event.pageX - this.state.lastLocation.x,
-        y: event.pageY - this.state.lastLocation.y
+        x: e.pageX - this.state.lastLocation.x,
+        y: e.pageY - this.state.lastLocation.y
       }
-      speed += (difference.x^2 + difference.y^2);
+      speed += (-difference.x + difference.y)//*Math.abs(difference.x + difference.y)/2;
     }
 
     this.setState({
       lastLocation: {
-        x: event.pageX,
-        y: event.pageY
+        x: e.pageX,
+        y: e.pageY
       },
       speed,
       angle
     });
   }
 
+  captureMouseUp = (e) => {
+    // console.log(`Mouse Up -> x: ${e.clientX}, y: ${e.clientY}`);
+    let mouseUp = { x: e.clientX, y: e.clientY }
+    const newAngle = this.state.angle + this.state.speed;
+
+    // if (!this.state.spinning) this.rotate();
+    this.setState({
+      mouseUp,
+      dragging:false,
+      spinning: true, // only when speed is 0
+      originalAngle: undefined,
+      speed: 0,
+      lastLocation: {
+        x: undefined,
+        y: undefined
+      },
+      angle: newAngle
+    });
+
+    this.rotate(newAngle);
+
+  }
+
+  rotate = (newAngle) => {
+    let element = this.refs.spinner.followMouse;
+    let animation = new TimelineMax({
+      repeat: 0,
+      onComplete: this.setSpinToFalse
+    })
+    .to(element,
+        1,
+        {rotation: `${newAngle}`},
+        0);
+  }
+
   setSpinToFalse = () => {
+    console.log('haha looser LEL');
     this.setState({
       spinning: false
     });
-  }
-
-  rotate = () => {
-    let element = this.refs.spinner.followMouse;
-    let animation = new TimelineMax({repeat: 0, onComplete: this.setSpinToFalse}).to(element, 1, {rotation: 1080}, 0);
-    // console.log('animation ', animation);
-    // animation.play();
-    // return animation;
   }
 
   render() {
@@ -134,7 +147,7 @@ class Draggable extends Component {
         className="draggable"
         onMouseDown={this.captureMouseDown}
         onMouseUp={this.captureMouseUp}
-        onMouseMove={this.calcSpeed}
+        onMouseMove={this.captureMouseMove}
       >
         <div
           style={{
