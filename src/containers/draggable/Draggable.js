@@ -5,7 +5,6 @@ import sortBy from 'sort-by';
 import Fidget from '../../components/fidget/Fidget';
 import Score from '../../components/score/Score';
 import UserInfo from '../../components/user-info/UserInfo';
-import './Draggable.css';
 
 class Draggable extends Component {
   constructor(props) {
